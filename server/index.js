@@ -1,6 +1,7 @@
 import express from "express";
 import colors from "colors";
 import path from "path";
+import fs from "fs";
 
 const app = express()
 
@@ -8,28 +9,33 @@ const PORT = process.env.PORT || 4000;
 
 const __dirname = path.resolve()
 
+const routes = [];
+
 // app.use(express.static("client"))
 
-app.listen(PORT, () => {
-    console.log(`Server is listener on PORT:${colors.bgBlue(`http://localhost:${colors.bgRed(PORT)}`)}`)
+fs.readdir(__dirname + "/client", (err, files) => {
+    files.forEach(file => {
+        routes.push(path.parse(file).name)
+    });
 })
 
-app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "index.html"))
-});
+setTimeout(() => {
 
-app.get("/colors", (req, res) => {
-    // get dirname and send file error.html
-    res.sendFile(path.resolve(__dirname, "client", "colors.html"))
-})
+    app.listen(PORT, () => {
+        console.log(`Server is listener on PORT:${colors.bgBlue(`http://localhost:${colors.bgRed(PORT)}`)}`)
+    })
 
-app.get("/page1", (req, res) => {
-    // get dirname and send file error.html
-    res.sendFile(path.resolve(__dirname, "client", "page1.html"))
-})
+    routes.forEach(route => {
+        app.get(`/${route}`, (req, res) => {
+            res.sendFile(path.resolve(__dirname, "client", `${route}.html`))
+        })
+    })
 
-// this block olways end
-app.get("/*", (req, res) => {
-    // get dirname and send file error.html
-    res.sendFile(path.resolve(__dirname, "client", "error.html"))
-})
+    app.get(`/`, (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", `index.html`))
+    })
+
+    app.get(`/*`, (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", `error.html`))
+    })
+}, 1000)

@@ -59,12 +59,14 @@
             background-color: transparent;
             outline: none;
             border: none;
+            transition: transform .2s;
         }
 
         .add-to-buffer {
             position: relative;
             transition: all 0.2s;
         }
+
         .add-to-buffer::before {
             content: "Add color to buffer!";
             clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
@@ -80,6 +82,12 @@
             font-size: 1rem;
             display: flex;
             justify-content: center;
+            text-shadow: none;
+        }
+
+        .lock {
+            transform: scale(2);
+            text-shadow: 0 0 10px white;
         }
     </style>
 </head>
@@ -166,11 +174,11 @@
             }
 
             if (btn === "unlock") {
-                e.target.className = "fa-solid fa-lock";
+                e.target.className = "fa-solid fa-lock lock";
                 e.target.dataset.type = "lock";
             }
 
-            if(h2 === "color") {
+            if (h2 === "color") {
                 const color = e.target.textContent;
                 const popup = `Color ${color} copy to buffer.`
 
