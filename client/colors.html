@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colors Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        body {
+            height: 100vh;
+            background-color: black;
+            color: white;
+        }
+
+        .container {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .container h2 {
+            cursor: pointer;
+        }
+
+        .container h2 span {
+            /* color: red; */
+            filter: drop-shadow(2px 2px 0px black);
+        }
+
+        .container a {
+            color: inherit;
+        }
+
+        .cols {
+            display: flex;
+            height: 100%;
+        }
+
+        .col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            transition: background 0.1s;
+        }
+
+        .col h2 {
+            text-shadow: 0 0 4px black;
+        }
+
+        .col button {
+            background-color: transparent;
+            outline: none;
+            border: none;
+        }
+
+        .add-to-buffer {
+            position: relative;
+            transition: all 0.2s;
+        }
+        .add-to-buffer::before {
+            content: "Add color to buffer!";
+            clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
+            width: 120px;
+            height: 75px;
+            padding: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: translate(-0%, -120%);
+            background-color: white;
+            color: black;
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="/">Back</a>
+        <h2>Press <span>Space Button</span> to update colors</h2>
+    </div>
+
+    <div class="cols">
+        <div class="col">
+            <h2 data-type="color">Color</h2>
+            <button data-type="unlock" class="fa-solid fa-unlock"></button>
+        </div>
+
+        <div class="col">
+            <h2 data-type="color">Color</h2>
+            <button data-type="unlock" class="fa-solid fa-unlock"></button>
+        </div>
+
+        <div class="col">
+            <h2 data-type="color">Color</h2>
+            <button data-type="unlock" class="fa-solid fa-unlock"></button>
+        </div>
+
+        <div class="col">
+            <h2 data-type="color">Color</h2>
+            <button data-type="unlock" class="fa-solid fa-unlock"></button>
+        </div>
+
+        <div class="col">
+            <h2 data-type="color">Color</h2>
+            <button data-type="unlock" class="fa-solid fa-unlock"></button>
+        </div>
+    </div>
+
+    <script>
+        const generateColor = () => {
+            const collection = "0123456789ABCDEF";
+            let color = "#";
+
+            for (let i = 0; i < 6; i++) {
+                color += collection[Math.floor(Math.random() * collection.length)]
+            }
+
+            return color;
+        }
+
+        const setBodyColors = () => {
+            document.querySelectorAll(".col").forEach(col => {
+
+                if (col.querySelector("button").dataset.type === "lock") {
+                    return
+                } else {
+                    const hexColor = generateColor()
+                    col.style.backgroundColor = hexColor;
+                    col.querySelector("h2").textContent = hexColor;
+                }
+
+            })
+        }
+
+        const clickToBuffer = (text) => {
+            return navigator.clipboard.writeText(text)
+        }
+
+        document.addEventListener("keydown", (e) => {
+            // disable behavior state for key="sapce"
+            e.preventDefault()
+            if (e.code.toLocaleLowerCase() === "space") {
+                setBodyColors()
+            }
+        })
+
+        // Event Delegation
+        document.addEventListener("click", (e) => {
+            const btn = e.target.dataset.type
+            const h2 = e.target.dataset.type
+
+            if (btn === "lock") {
+                e.target.className = "fa-solid fa-unlock";
+                e.target.dataset.type = "unlock";
+            }
+
+            if (btn === "unlock") {
+                e.target.className = "fa-solid fa-lock";
+                e.target.dataset.type = "lock";
+            }
+
+            if(h2 === "color") {
+                const color = e.target.textContent;
+                const popup = `Color ${color} copy to buffer.`
+
+                console.log(popup)
+                clickToBuffer(color)
+
+                e.target.classList.add("add-to-buffer")
+                setTimeout(() => {
+                    e.target.classList.remove("add-to-buffer")
+                }, 1000)
+            }
+
+        })
+
+        setBodyColors()
+    </script>
+</body>
+
+</html>
