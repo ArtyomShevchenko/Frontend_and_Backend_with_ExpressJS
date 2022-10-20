@@ -25,10 +25,6 @@
             left: 0;
         }
 
-        .container h2 {
-            cursor: pointer;
-        }
-
         .container h2 span {
             /* color: red; */
             filter: drop-shadow(2px 2px 0px black);
@@ -40,6 +36,7 @@
 
         .cols {
             display: flex;
+            flex-direction: row;
             height: 100%;
         }
 
@@ -49,10 +46,14 @@
             align-items: center;
             justify-content: space-around;
             transition: background 0.1s;
+            min-height: 100px;
         }
 
         .col h2 {
             text-shadow: 0 0 4px black;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
         }
 
         .col button {
@@ -63,31 +64,22 @@
         }
 
         .add-to-buffer {
-            position: relative;
-            transition: all 0.2s;
-        }
-
-        .add-to-buffer::before {
-            content: "Add color to buffer!";
-            clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 75% 75%, 75% 100%, 50% 75%, 0% 75%);
-            width: 120px;
-            height: 75px;
-            padding: 10px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transform: translate(-0%, -120%);
-            background-color: white;
-            color: black;
             font-size: 1rem;
-            display: flex;
-            justify-content: center;
-            text-shadow: none;
         }
 
-        .lock {
-            transform: scale(2);
-            text-shadow: 0 0 10px white;
+        @media (max-width: 768px) {
+            .container {
+                position: relative;
+                min-height: 100px;
+            }
+
+            .cols {
+                flex-direction: column;
+            }
+
+            .col {
+                flex-direction: row;
+            }
         }
     </style>
 </head>
@@ -186,8 +178,10 @@
                 clickToBuffer(color)
 
                 e.target.classList.add("add-to-buffer")
+                e.target.textContent = popup
                 setTimeout(() => {
                     e.target.classList.remove("add-to-buffer")
+                    e.target.textContent = color
                 }, 1000)
             }
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Test playground</h1>
+        <br>
+        <a href="/">Back</a>
+        <hr>
+        <form action="http://localhost:4000/api">
+            <input type="text">
+            <input type="submit">
+        </form>
+
+        <script>
+            const btnSubmit = document.querySelector("input[type='submit']")
+
+            // Event Delegation
+            document.addEventListener("click", (e) => {
+                if (e.target.type === btnSubmit.type) {
+                    e.preventDefault()
+
+                    const formData = [
+                        { "name": "Artyom" },
+                        { "name": "Olya" },
+                        { "name": "Vika" }
+                    ]
+
+                    fetch("http://localhost:4000/test", {
+                        method: "POST",
+                        mode: "no-cors",
+                        cache: "no-cache",
+                        credentials: "same-origin",
+                        // headers: {
+                        //     "Content-Type": "form-data"
+                        // },
+                        body: JSON.stringify(formData)
+                    });
+                }
+            })
+        </script>
+    </div>
+</body>
+
+</html>

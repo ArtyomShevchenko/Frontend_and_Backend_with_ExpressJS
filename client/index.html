@@ -23,28 +23,11 @@
                 <li><a href="/page2">Page 2</a></li>
                 <li><a href="/page3">Page 3</a></li>
                 <li><a href="/page4">Page 4</a></li>
+                <hr>
+                <li><a href="/test">Test</a></li>
             </ul>
         </nav>
     </div>
-
-    <script>
-        // Event Delegation
-        document.addEventListener("click", (e) => {
-            const btn = e.target.dataset.type
-
-            if(btn === "lock") {
-                e.target.className = "fa-solid fa-unlock";
-                e.target.dataset.type = "unlock";
-                e.target.textContent = "unlock"
-            }
-            
-            if(btn === "unlock") {
-                e.target.className = "fa-solid fa-lock";
-                e.target.dataset.type = "lock";
-                e.target.textContent = "lock"
-            }
-        })
-    </script>
 </body>
 
 </html>
