@@ -1,10 +1,13 @@
 {
+  "homepage": "http://ArtyomShevchenko.github.ip/Frontend_and_Backend_with_ExpressJS",
   "name": "Frontend_and_Backend_with_ExpressJS",
   "version": "1.0.0",
   "description": "Learning ExpressJS",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/index.js",
+    "deploy": "nodemon server/index.js",
+    "build": "gh-pages -d build"
   },
   "keywords": [
     "express",
@@ -17,5 +20,8 @@
     "express": "^4.18.2",
     "nodemon": "^2.0.20"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
+  }
 }
